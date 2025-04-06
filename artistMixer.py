@@ -3,6 +3,7 @@ import random
 import requests
 import time
 from time import sleep
+from dotenv import load_dotenv
 from celery import Celery
 from flask import Flask, session ,redirect, request,request, url_for, render_template
 from apscheduler.triggers.date import DateTrigger
@@ -16,8 +17,8 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = os.urandom(64)
 scheduler = BackgroundScheduler()
-client_id = 'da9dea17abe94684a2cfacfa56725d21'
-client_Secret = '89499e6c644344359e14982078514ee4'
+client_id = 
+client_Secret =
 redirect_uri = 'http://localhost:5000/callback'
 scope = 'playlist-read-private, user-modify-playback-state, user-read-playback-state, user-read-currently-playing'
 cache_handler = FlaskSessionCacheHandler(session)
