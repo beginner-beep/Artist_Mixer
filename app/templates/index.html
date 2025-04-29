@@ -1,0 +1,74 @@
+<html>
+<body id="test" >
+    <head>
+        <title>ArtistMixer</title>
+        <link rel="stylesheet" href = "/static/style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+   
+    <body>
+        <nav class="navbar">
+            <div class="logo">ArtistMixer</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+     
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <h1>ArtistMixer</h1>
+        <p>Hello!</p>
+        <form action = "{{url_for('main.base')}}" method = "POST">
+            <label for="fname">First artist:</label><br>
+            <input name="artist1", type="text" id="fname" name="fname"><br>
+            <label for="lname">Second artist:</label><br>
+            <input name="artist2" type="text" id="lname" name="lname"><br><br>
+            <input type="submit" value="Submit">
+          </form> 
+        <p>Now mixing</p>
+        <p>artist 1 ({{artist1}})</p>
+        <p>artist 2 ({{artist2}})</p>
+
+        <p>Now playing</p>
+        <p>({{CurrentlyPlaying}})</p>
+        <p>({{pausedOrResumed}})</p>
+
+        <div  class = "player">
+            
+      
+             <button class="button" id="toggleButton" onclick="togglePlayPause()">
+                <i class="material-icons" id="myIcon">{{ playstate | default('play_arrow') }}</i>
+             </button>
+             <button class="button" id="skip_button"><i class="material-icons">skip_next</i></button>
+        </div>
+        <script>
+            let isPlaying = false;
+            if ("{{playstate}}" == "pause"){
+                  let isPlaying = true;
+            }
+             
+            
+
+            function togglePlayPause() {
+                const button = document.getElementById('toggleButton');
+                if (isPlaying == true) {
+                    // Pause state
+                    fetch("{{ url_for('main.pause') }}")
+                        .then(response => console.log("Paused"))
+                        .catch(error => console.error("Pause error:", error));
+                    const icon = document.getElementById('myIcon');
+                    icon.textContent = 'play_arrow';
+                    
+                } else {
+                    // Play state
+                    fetch("{{ url_for('main.resume') }}")
+                        .then(response => console.log("Playing"))
+                        .catch(error => console.error("Play error:", error));
+                    const icon = document.getElementById('myIcon');
+                    icon.textContent = 'pause';
+                }
+                isPlaying = !isPlaying;
+            }
+        </script>
+    </body>
+</html>
